@@ -1,0 +1,1 @@
+from .nota_fiscal_model import NotaFiscal

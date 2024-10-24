@@ -1,25 +1,38 @@
+import os
 from fastapi import FastAPI
+from google.cloud import bigquery, storage
+from app.controllers.nota_fiscal_controller import NotaFiscalController
+from app.services.nota_fiscal_service import NotaFiscalService
+from app.repositories.nota_fiscal_repository import NotaFiscalRepository
 
-from app.controllers.user_controller import UserController
-from app.controllers.items_controller import ItemsController
-from app.services.user_service import UserService
-from app.services.item_service import ItemService
-from app.repositories.user_repository import UserRepository
-from app.repositories.item_repository import ItemRepository
+
+bucket_name = "bucket_teste_alexandre"
+project_id = ""
+table_id = "dataset_teste.nota_fiscal_bronze"
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'mamae.json'
+
 
 app = FastAPI()
 
-# Instâncias dos repositórios
-user_repository = UserRepository()
-item_repository = ItemRepository()
+# Instância do repository
+nota_fiscal_repository = NotaFiscalRepository(bucket_name=bucket_name, project_id=project_id, table_id=table_id)
 
-# Instâncias dos services
-user_service = UserService(user_repository)
-item_service = ItemService(item_repository)
-# Instâncias dos controladores
-user_controller = UserController(repository=user_repository)
-items_controller = ItemsController(repository=item_repository)
+# Instância do service
+nota_fiscal_service = NotaFiscalService(repository=nota_fiscal_repository)
 
-# Incluindo as rotas dos controladores
-app.include_router(user_controller.router)
-app.include_router(items_controller.router)
+# Instância do controller
+nota_fiscal_controller = NotaFiscalController(service=nota_fiscal_service)
+
+# Incluindo as rotas do controlador
+app.include_router(nota_fiscal_controller.router)
+
+@app.get("/")
+def read_root():
+    return {"message": "API is running successfully!"}
+
+
+if __name__ == "__main__":
+    import uvicorn
+    print("Running at http://localhost:8000")
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

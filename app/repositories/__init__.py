@@ -1,2 +1,1 @@
-from .item_repository import ItemRepository
-from .user_repository import UserRepository
+from .nota_fiscal_repository import NotaFiscalRepository
