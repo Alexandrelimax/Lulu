@@ -1,9 +1,12 @@
 from typing import List
+
 from fastapi import HTTPException, status, UploadFile, File
 from fastapi.responses import JSONResponse
+
 from app.models.nota_fiscal_model import NotaFiscal
 from app.services.nota_fiscal_service import NotaFiscalService
 from app.controllers.base_controller import BaseController
+
 
 class NotaFiscalController(BaseController):
     def __init__(self, service: NotaFiscalService):

@@ -1,6 +1,6 @@
 import os
 from fastapi import FastAPI
-from google.cloud import bigquery, storage
+
 from app.controllers.nota_fiscal_controller import NotaFiscalController
 from app.services.nota_fiscal_service import NotaFiscalService
 from app.repositories.nota_fiscal_repository import NotaFiscalRepository

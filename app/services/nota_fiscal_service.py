@@ -3,7 +3,6 @@ from datetime import datetime
 from typing import List, IO
 
 import pandas as pd
-
 from app.models.nota_fiscal_model import NotaFiscal
 from app.repositories.nota_fiscal_repository import NotaFiscalRepository
 
